@@ -7,23 +7,7 @@ import { ChevronDown, ChevronRight } from "react-feather"
 
 import { useFontSize } from "../../../Providers"
 
-type DivButtonProps = Pick<HeaderButtonProps, "label"> & {
-  className?: string
-}
-const DivButton = ({
-  label,
-  ...delegated
-}: PropsWithChildren<DivButtonProps>) => (
-  <Disclosure.Button
-    as="div"
-    role="button"
-    aria-label={`Expand ${label || "accordion"}`}
-    tabIndex={0}
-    {...delegated}
-  />
-)
-
-const Button = styled(DivButton)(({ theme: { color, space } }) => {
+const Button = styled(Disclosure.Button)(({ theme: { color, space } }) => {
   const fontSize = useFontSize()
   return css`
     font-size: ${fontSize}rem;
@@ -69,7 +53,7 @@ export const HeaderButton = ({
   children,
 }: PropsWithChildren<HeaderButtonProps>) => {
   return (
-    <Button label={label}>
+    <Button aria-label={`Expand ${label || "accordion"}`}>
       <CaretLayout>{open ? <ChevronDown /> : <ChevronRight />}</CaretLayout>
       {children}
     </Button>

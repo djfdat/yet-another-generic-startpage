@@ -1,4 +1,4 @@
-import { ReactNode, useState } from "react"
+import { ReactNode, useState, forwardRef } from "react"
 
 import { css } from "@emotion/react"
 import styled from "@emotion/styled"
@@ -7,7 +7,7 @@ import { ChevronsLeft, ChevronsRight } from "react-feather"
 
 import { IconButton } from "./IconButton"
 
-const SwitchTransition = styled(Transition)`
+const TransitionWrapper = styled.div`
   position: absolute;
   width: 100%;
 
@@ -24,6 +24,17 @@ const SwitchTransition = styled(Transition)`
     transform: translateX(150vw);
   }
 `
+
+const SwitchTransition = forwardRef<HTMLDivElement, React.ComponentProps<typeof Transition>>(
+  (props, ref) => (
+    <Transition
+      as={TransitionWrapper}
+      ref={ref}
+      {...props}
+    />
+  )
+)
+SwitchTransition.displayName = "SwitchTransition"
 
 const ButtonPosition = styled.div`
   ${({ theme: { space } }) => css`

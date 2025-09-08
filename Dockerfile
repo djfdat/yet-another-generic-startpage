@@ -1,22 +1,25 @@
 #-- BUILD
-FROM node:20-alpine AS build
+FROM oven/bun:canary-alpine AS build
 
-USER node
-WORKDIR /home/node
+USER bun
+WORKDIR /home/bun
 
 ##-- Copy everything into the container
-ADD --chown=node:node ./public ./public
-ADD --chown=node:node ./src ./src
-ADD --chown=node:node ./package.json .
-ADD --chown=node:node ./tsconfig.json .
+ADD --chown=bun:bun ./public ./public
+ADD --chown=bun:bun ./src ./src
+ADD --chown=bun:bun ./package.json .
+ADD --chown=bun:bun ./tsconfig.json .
 
 ##-- Build the app
-RUN npm install
-RUN npm run build
+RUN bun install
+RUN bun run build
+
+
+
 
 
 #-- DEPLOYMENT
 FROM nginx:alpine
 
 ##-- Copy app build into nginx
-COPY --from=build /home/node/build /usr/share/nginx/html
+COPY --from=build /home/bun/build /usr/share/nginx/html
